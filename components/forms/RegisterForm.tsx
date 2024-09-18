@@ -9,7 +9,7 @@ import CustomFormField, { FormFieldType } from "../CustomFormField";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { PatientFormValidation, UserFormValidation } from "@/lib/validation";
-import { createUser } from "@/lib/actions/patient.actions";
+import { createUser, registerPatient } from "@/lib/actions/patient.actions";
 import SubmitButton from "../SubmitButton";
 import {
   Doctors,
@@ -19,6 +19,9 @@ import {
 } from "@/constants";
 import { SelectItem } from "@radix-ui/react-select";
 import Image from "next/image";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { Label } from "../ui/label";
+import FileUploader from "../FileUploader";
 
 const RegisterForm = ({ user }: { user: User }) => {
   const router = useRouter();
@@ -77,6 +80,8 @@ const RegisterForm = ({ user }: { user: User }) => {
         identificationDocument: values.identificationDocument ? formData : undefined,
         privacyConsent: values.privacyConsent,
       };
+
+      const newPatient = await registerPatient(patient);
 
       const newUser = await createUser(user);
 
