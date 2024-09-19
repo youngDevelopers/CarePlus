@@ -3,13 +3,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
 import { Form, FormControl } from "@/components/ui/form";
 import CustomFormField, { FormFieldType } from "../CustomFormField";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { PatientFormValidation, UserFormValidation } from "@/lib/validation";
-import { createUser, registerPatient } from "@/lib/actions/patient.actions";
+import { PatientFormValidation } from "@/lib/validation";
+import { registerPatient } from "@/lib/actions/patient.actions";
 import SubmitButton from "../SubmitButton";
 import {
   Doctors,
@@ -83,10 +82,8 @@ const RegisterForm = ({ user }: { user: User }) => {
 
       const newPatient = await registerPatient(patient);
 
-      const newUser = await createUser(user);
-
-      if (newUser) {
-        router.push(`/patients/${newUser.$id}/register`);
+      if(newPatient){
+        router.push(`/patients/${user.$id}/new-appointment`)
       }
     } catch (error) {
       console.log(error);
@@ -344,7 +341,9 @@ const RegisterForm = ({ user }: { user: User }) => {
 
         <section className="space-y-6">
           <div className="mb-9 space-y-1">
-            <h2 className="sub-header">Consent and Privacy</h2>
+            <h2 className="sub-header">
+            Consent and Privacy
+            </h2>
           </div>
 
           <CustomFormField
